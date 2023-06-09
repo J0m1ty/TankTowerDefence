@@ -11,7 +11,11 @@ class Scene(Enum):
 
 class MainMenu():
     def __init__(self):
-        pass
+        font1 = pygame.font.SysFont("ariel", 28)
+        menu_caption = font1.render("Click to Start", True, pygame.color("Black"))
+        pygame.key.get_pressed()
+        if pygame.MOUSEBUTTONDOWN:
+            StateManager.set_scene
 
     def draw(self):
         pass
