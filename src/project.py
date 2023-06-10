@@ -2,20 +2,13 @@ import pygame
 import sys
 import random
 import time
+import math
 from enum import Enum
 
 class Scene(Enum):
-    MAIN_MENU = 0,
-    GAME = 1,
+    MAIN_MENU = 0
+    GAME = 1
     GAME_OVER = 2
-
-class MainMenu():
-    def __init__(self):
-        font1 = pygame.font.SysFont("ariel", 28)
-        menu_caption = font1.render("Click to Start", True, pygame.color("Black"))
-        pygame.key.get_pressed()
-        if pygame.MOUSEBUTTONDOWN:
-            StateManager.set_scene
 
     def draw(self):
         pass
@@ -59,6 +52,39 @@ class StateManager:
             self.game.draw()
         elif self.current_scene == Scene.GAME_OVER:
             self.game_over.draw()
+    pass
+
+
+
+
+
+class Tank:
+    def __init__(self, screen, x, y, image_filename):
+        self.screen = screen
+        self.size = 32
+        self.x = x
+        self.y = y
+        self.angle = 0
+        self.image = image_filename
+
+    def draw(self):
+        rotated = pygame.transform.rotate(self.image, 90 - self.angle)
+        centered_rect = rotated.get_rect(center=(self.x - self.size // 2, self.y - self.size // 2))
+        self.screen.blit(rotated, centered_rect)
+
+    def rotate_by(self, amount: int):
+        self.angle += amount
+
+    def move(self, amount: int):
+        x = math.cos(math.radians(self.angle))
+        y = math.sin(math.radians(self.angle))
+        self.x += x * amount
+        self.y += y * amount
+
+
+
+
+
 
 def main():
     pygame.init()
@@ -66,20 +92,28 @@ def main():
     pygame.display.set_caption("Tank Tower Defense")
     screen = pygame.display.set_mode((640, 480))
 
-    state_manager = StateManager(screen)
-
     clock = pygame.time.Clock()
+
+    image = pygame.image.load("Tank_Base.png")
+    tank = Tank(screen, (screen.get_width() // 2), (screen.get_height() // 2), image)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            state_manager.get_event(event)
-
-        state_manager.draw()
 
         pygame.display.flip()
 
         clock.tick(60)
+        screen.fill((255, 255, 255))
+        tank.draw()
+
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_RIGHT]:
+            tank.rotate_by(2)
+        if pressed_keys[pygame.K_LEFT]:
+            tank.rotate_by(-2)
+        if pressed_keys[pygame.K_UP]:
+            tank.move(1)
 
 main()
