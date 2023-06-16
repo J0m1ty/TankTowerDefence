@@ -83,7 +83,7 @@ tank_bases = [
     TankBase("Car", [TeamImage(Team.RED, "../images/Red_Car_Base.PNG"),
                      TeamImage(Team.GREEN, "../images/Car_Base.PNG")], 100, 100 // 80, 3, 100, False, 0),
     TankBase("Tracks", [TeamImage(Team.RED, "../images/Red_Tank_Base.PNG"),
-                        TeamImage(Team.GREEN, "../images/Tank_Base.PNG")], 200, 70 // 70, 1, 200, False, 300),
+                        TeamImage(Team.GREEN, "../images/Tank_Base.PNG")], 200, 70 // 70, 1, 200, False, 400),
     TankBase("Hover", [TeamImage(Team.RED, "../images/Red_Hover_Base.PNG"),
                        TeamImage(Team.GREEN, "../images/Hover_Base.PNG")], 150, 85 // 80, 2, 400, True, 600),
 ]
@@ -92,29 +92,29 @@ tank_turrets = [
     TankTurret("Single", [TeamImage(Team.RED, "../images/Red_Tank_Turret.PNG"),
                           TeamImage(Team.GREEN, "../images/Tank_Turret.PNG")], 15, 60, 2, 200, 100, [(0, 0)], 0),
     TankTurret("Double", [TeamImage(Team.RED, "../images/Red_Tank_Double_Turret.PNG"),
-                          TeamImage(Team.GREEN, "../images/Tank_Double_Turret.PNG")], 15, 30, 3, 150, 200,
-               [(-3, 0), (3, 0)], 300),
+                          TeamImage(Team.GREEN, "../images/Tank_Double_Turret.PNG")], 15, 30, 3, 150, 300,
+               [(-3, 0), (3, 0)], 500),
     TankTurret("Rocket", [TeamImage(Team.RED, "../images/Red_Tank_Rocket_Turret.PNG"),
-                          TeamImage(Team.GREEN, "../images/Tank_Rocket_Turret.PNG")], 100, 180, 3, 200, 400, [], 600,
+                          TeamImage(Team.GREEN, "../images/Tank_Rocket_Turret.PNG")], 100, 180, 3, 200, 500, [], 600,
                True,
                "../images/Rocket.png")
 ]
 
 towers = [
     TankData(
-        TankBase("Stationary", [], 50, 0, 0, 0, False, False),
+        TankBase("Stationary", [], 100, 0, 0, 0, False, False),
         TankTurret("Sandbags", [TeamImage(Team.RED, "../images/Red_Sandbag.png"),
                                 TeamImage(Team.GREEN, "../images/Sandbag.png")], 0, 0, 0, 0, 15, [], 0),
     ),
     TankData(
-        TankBase("Stationary", [], 100, 0, 0, 0, False, False),
+        TankBase("Stationary", [], 200, 0, 0, 0, False, False),
         TankTurret("Hedgehog", [TeamImage(Team.RED, "../images/Red_Hedgehog.png"),
-                                TeamImage(Team.GREEN, "../images/Hedgehog.png")], 0, 0, 0, 0, 30, [], 45),
+                                TeamImage(Team.GREEN, "../images/Hedgehog.png")], 0, 0, 0, 0, 100, [], 150),
     ),
     TankData(
-        TankBase("Stationary", [], 400, 0, 0, 0, False, False),
+        TankBase("Stationary", [], 200, 0, 0, 0, False, False),
         TankTurret("Howitzer", [TeamImage(Team.RED, "../images/Red_Howitzer.png"),
-                                TeamImage(Team.GREEN, "../images/Howitzer.png")], 75, 60, 1, 90, 100, [], 200),
+                                TeamImage(Team.GREEN, "../images/Howitzer.png")], 75, 60, 1, 90, 300, [], 400),
     ),
 ]
 
@@ -249,7 +249,7 @@ class Game:
             enemy_base = list(filter(lambda base: base.team != self.player_team, self.bases))[0]
             tries = 20
             while tries > 0:
-                tvt = random.randint(0,100)
+                tvt = random.randint(0,300)
                 if tvt > 50:
                     tank_base = random.randint(0, 2)
                     tank_top = random.randint(0, 2)
@@ -448,8 +448,8 @@ class Game:
             if self.selected_tower != 1 and self.unlocked_towers[1]:
                 self.selected_tower = 1
             elif not self.unlocked_towers[1]:
-                if player_base.money >= towers[0].tank_turret.unlock_price:
-                    player_base.money -= towers[0].tank_turret.unlock_price
+                if player_base.money >= towers[1].tank_turret.unlock_price:
+                    player_base.money -= towers[1].tank_turret.unlock_price
                     self.selected_tower = 1
                     self.unlocked_towers[1] = True
                 else:
@@ -461,8 +461,8 @@ class Game:
             if self.selected_tower != 2 and self.unlocked_towers[2]:
                 self.selected_tower = 2
             elif not self.unlocked_towers[2]:
-                if player_base.money >= towers[0].tank_turret.unlock_price:
-                    player_base.money -= towers[0].tank_turret.unlock_price
+                if player_base.money >= towers[2].tank_turret.unlock_price:
+                    player_base.money -= towers[2].tank_turret.unlock_price
                     self.selected_tower = 2
                     self.unlocked_towers[2] = True
                 else:
